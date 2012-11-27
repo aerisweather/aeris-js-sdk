@@ -490,8 +490,8 @@
 		lower: function(s) { return (s + '').toLowerCase(); },
 		ucwords: function(s) {
 			return (s + '').replace(/^([a-z])|\s+([a-z])/g, function($1) {
-		        return $1.toUpperCase();
-		    });
+				return $1.toUpperCase();
+			});
 		},
 		ucfirst: function(s) {
 			s += '';
@@ -642,8 +642,13 @@
 			throw "InvalidLoadRoutine";
 		},
 
-		reload: function() {
+		reload: function(params) {
 			Aeris._debug('Reloading widget data');
+			// overwrite params if we're passing new ones
+			if (params !== undefined) {
+				this.params = $.extend(true, this.params, params);
+			}
+
 			this.load();
 		},
 
@@ -676,6 +681,8 @@
 
 			// need to pass global options to template along with data
 			data = Aeris._.extend({}, Aeris.config, data);
+			// pass widget params to template for any conditionals that are needed
+			data.params = this.params;
 
 			this._beforeRender(data);
 			this.content.html(this.view.render(data).el);
@@ -856,11 +863,11 @@
 							'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-submit"></a>' +
 						'</div>',
 					toolbar: '<div class="aeris-widget-tbar">' +
- 							'<div class="aeris-widget-tbar-ctrls">' +
- 								'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-search"></a>' +
- 								'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-geolocate"></a>' +
- 							'</div>' +
- 						'</div>',
+							'<div class="aeris-widget-tbar-ctrls">' +
+								'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-search"></a>' +
+								'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-geolocate"></a>' +
+							'</div>' +
+						'</div>',
 					error: '<div class="aeris-widget-error-top">{{message}}</div>'
 				},
 				helpers: {
@@ -869,8 +876,8 @@
 					ucwords: function(s) {
 						s = (s + '').toLowerCase();
 						return (s + '').replace(/^([a-z])|\s+([a-z])|\/([a-z])|(\-[a-z])/g, function($1) {
-					        return $1.toUpperCase();
-					    });
+							return $1.toUpperCase();
+						});
 					},
 					ucfirst: function(s) {
 						s += '';

@@ -178,7 +178,7 @@
 				'</div>',
 				helpers: {
 					minmax: function(v) {
-						if (v.isDay == true) return v.maxTempF;
+						if (v.isDay === true) return v.maxTempF;
 						return v.minTempF;
 					}
 				}
@@ -211,16 +211,10 @@
 				}
 			},{
 				endpoint: Aeris.endpoints.ADVISORIES,
-				params: {
-					p: this.params.p
-				}
+				params: { p: this.params.p }
 			},{
 				endpoint: Aeris.endpoints.FORECASTS,
-				params: {
-					p: this.params.p,
-					limit: 2,
-					filter: 'daynight'
-				}
+				params: $.extend(true, { limit: 2, filter: 'daynight' }, this.params)
 			}], {});
 		},
 
@@ -238,27 +232,31 @@
 			cls: '',
 			tpl: {
 				container: '<div class="aeris-widget-outer aeris-widget-fcst">' +
-						 '<div class="aeris-widget-inner">' +
-	 					'<div class="aeris-widget-top">' +
-	 						'<div class="aeris-widget-title">{{places.0.place.name}}, {{places.0.place.state}}</div>' +
-	 						'<div class="aeris-widget-loader-update"></div>' +
-	 						'<div class="aeris-widget-tbar">' +
-	 							'<div class="aeris-widget-tbar-ctrls">' +
-	 								'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-search"></a>' +
-	 								'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-geolocate"></a>' +
-	 							'</div>' +
-	 						'</div>' +
-	 					'</div>' +
+					'<div class="aeris-widget-inner">' +
+						'<div class="aeris-widget-top">' +
+							'<div class="aeris-widget-title">{{places.0.place.name}}, {{places.0.place.state}}</div>' +
+							'<div class="aeris-widget-loader-update"></div>' +
+							'<div class="aeris-widget-tbar">' +
+								'<div class="aeris-widget-tbar-ctrls">' +
+									'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-search"></a>' +
+									'<a class="aeris-widget-tbar-btn aeris-widget-tbar-btn-geolocate"></a>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
 						'{{> search}}' +
 						'{{> error}}' +
 						'<div class="aeris-widget-bottom">' +
 							'<div class="aeris-widget-fcst-periods">' +
 								'<ul>{{#forecasts.0.periods}}' +
 									'<li>' +
-										'<p class="aeris-widget-fcst-period-name">{{dayformat validTime}}</p>' +
+										'<p class="aeris-widget-fcst-period-name">{{#if ../isHourly}}{{hourformat validTime}}{{else}}{{dayformat validTime}}{{/if}}</p>' +
 										'<p class="aeris-widget-fcst-period-icon"><img src="{{../paths.wxicons}}{{icon}}" /></p>' +
-										'<p class="aeris-widget-fcst-period-hi">{{maxTempF}}&deg;</p>' +
-										'<p class="aeris-widget-fcst-period-lo">{{minTempF}}&deg;</p>' +
+										'{{#if ../isHourly}}' +
+											'<p class="aeris-widget-fcst-period-hi">{{tempF}}&deg;</p>' +
+										'{{else}}' +
+											'<p class="aeris-widget-fcst-period-hi">{{maxTempF}}&deg;</p>' +
+											'<p class="aeris-widget-fcst-period-lo">{{minTempF}}&deg;</p>' +
+										'{{/if}}' +
 									'</li>' +
 								'{{/forecasts.0.periods}}</ul>' +
 							'</div>' +
@@ -277,6 +275,24 @@
 							d = new Date(s * 1000);
 						}
 						return dayNames[d.getDay()].substr(0, 3);
+					},
+					hourformat: function(s) {
+						if (typeof(s) === 'string') {
+						var p = s.split(/-|\+|\s+|:|T/);
+							d = new Date(p[0], p[1]-1, p[2], p[3], p[4], p[5], 0);
+						}
+						else {
+							d = new Date(s * 1000);
+						}
+						var h = d.getHours();
+						var ampm = (h >= 12) ? 'p' : 'a';
+						if (h > 12) h -= 12;
+						else if (h === 0) h = 12;
+
+						return (h + ampm);
+					},
+					periodformat: function(s) {
+
 					}
 				}
 			},
@@ -306,16 +322,22 @@
 			});
 			batch.fetch([{
 				endpoint: Aeris.endpoints.PLACES,
-				params: {
-					p: this.params.p
-				}
+				params: { p: this.params.p }
 			},{
 				endpoint: Aeris.endpoints.FORECASTS,
-				params: {
-					p: this.params.p,
-					limit: (this.params.limit !== undefined) ? this.params.limit : 7
-				}
+				params: $.extend(true, { limit: 7 }, this.params)
 			}], {});
+		},
+
+		_beforeRender: function(data) {
+			console.log(data);
+			data.isHourly = false;
+			data.isDayNight = false;
+
+			if (data.params.filter) {
+				data.isHourly = (data.params.filter !== 'day' && data.params.filter !== 'daynight');
+				data.isDayNight = (data.params.filter !== 'daynight');
+			}
 		},
 
 		_afterRender: function() {
@@ -351,12 +373,12 @@
 		defaults: {
 			cls: '',
 			tpl: '<div class="aeris-widget-outer aeris-widget-nearbywx">' +
-						 '<div class="aeris-widget-inner">' +
-	 					'<div class="aeris-widget-top">' +
-	 						'<div class="aeris-widget-title">Nearby Weather</div>' +
-	 						'<div class="aeris-widget-loader-update"></div>' +
-	 						'{{> toolbar}}' +
-	 					'</div>' +
+						'<div class="aeris-widget-inner">' +
+						'<div class="aeris-widget-top">' +
+							'<div class="aeris-widget-title">Nearby Weather</div>' +
+							'<div class="aeris-widget-loader-update"></div>' +
+							'{{> toolbar}}' +
+						'</div>' +
 						'{{> search}}' +
 						'{{> error}}' +
 						'<div class="aeris-widget-bottom">' +
@@ -458,15 +480,11 @@
 				batch.fetch([{
 					endpoint: Aeris.endpoints.OBS,
 					action: Aeris.actions.ID,
-					params: {
-						p: this.places[i]
-					}
+					params: $.extend(true, {}, this.params)
 				},{
 					endpoint: Aeris.endpoints.ADVISORIES,
 					action: Aeris.actions.ID,
-					params: {
-						p: this.places[i]
-					}
+					params: $.extend(true, {}, this.params)
 				}], {});
 			}
 		}
@@ -482,11 +500,11 @@
 			tpl: {
 				container: '<div class="aeris-widget-outer aeris-widget-advisories">' +
 					'<div class="aeris-widget-inner">' +
-		 				'<div class="aeris-widget-top">' +
-		 					'<div class="aeris-widget-title">{{places.0.place.name}}, {{places.0.place.state}}</div>' +
-		 					'<div class="aeris-widget-loader-update"></div>' +
-		 					'{{> toolbar}}' +
-		 				'</div>' +
+						'<div class="aeris-widget-top">' +
+							'<div class="aeris-widget-title">{{places.0.place.name}}, {{places.0.place.state}}</div>' +
+							'<div class="aeris-widget-loader-update"></div>' +
+							'{{> toolbar}}' +
+						'</div>' +
 						'{{> search}}' +
 						'{{> error}}' +
 						'<div class="aeris-widget-bottom">' +
@@ -556,7 +574,7 @@
 				}
 			},{
 				endpoint: Aeris.endpoints.ADVISORIES,
-				params: this.params
+				params: $.extend(true, {}, this.params)
 			}], {});
 
 		}
@@ -674,7 +692,7 @@
 			},{
 				endpoint: Aeris.endpoints.STMREPORTS,
 				action: Aeris.actions.CLOSEST,
-				params: this.params
+				params: $.extend(true, { limit: 50 }, this.params)
 			}], {});
 		},
 
@@ -919,17 +937,17 @@
 						'</div>'
 				},
 				helpers: {
-				    typename: function(s) {
-				        var n = '';
-				        if (s == 'maxt') n = 'High Temp';
-				        else if (s == 'mint') n = 'Low Temp';
-				        else if (s == 'prcp') n = 'Precip';
-				        else if (s == 'snow') n = 'Snow';
-				        else if (s == 'lomx') n = 'Cool High Temp';
-				        else if (s == 'himn') n = 'Warm Low Temp';
-				        else n = s;
-				        return n;
-				    },
+					typename: function(s) {
+						var n = '';
+						if (s == 'maxt') n = 'High Temp';
+						else if (s == 'mint') n = 'Low Temp';
+						else if (s == 'prcp') n = 'Precip';
+						else if (s == 'snow') n = 'Snow';
+						else if (s == 'lomx') n = 'Cool High Temp';
+						else if (s == 'himn') n = 'Warm Low Temp';
+						else n = s;
+						return n;
+					},
 					total: function(s) {
 						var v = '';
 						s = s || {};
