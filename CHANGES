@@ -1,0 +1,32 @@
+
+1.2.1 - Released Jul 11, 2012
+- FIX: overriding template string in widgets does not use default helpers/partials for the parent widget object
+- FIX: conflicts with some JS libraries (specifically MooTools) where the library was adding functions to core JS objects causing tons of `undefined` endpoint requests
+
+1.2 - Released May 31, 2012
+- ADD: support for limit property to forecast widget
+- ADD: autocalc option to control if Forecast Widget columsn should be auto-calculated or not after data loaded
+- ADD: support for normals and normals_stations endpoints.
+- ADD: support for tides and tides_stations endpoints
+- ADD: support for observations_archive endpoint
+- ADD: support for observations_recent endpoint
+- FIX: correct Weather API requests when used in SSL environments
+- FIX: correct image requests when used in SSL environments
+- FIX: bug with trying to call methods on __super__ for subclasses
+
+1.1 - Released Mar 26, 2012
+- ADD: support for Records endpoint
+- ADD: support for Earthquakes endpoint
+- ADD: support for sunmoon endpoint
+- ADD: support for moonphases endpoint
+- ADD: new records widget
+- FIX: correct wind speed variable in currents widget
+- FIX: other minor bug fixes and improvements
+
+1.0.1 - Released Mar 12, 2012
+- MOD: updated to use local version of jQuery instead of pulling from Google CDN
+- MOD: updated to use latest version of API release
+- FIX: error due to trailing comma in aeris.widgets.js
+
+1.0.0 - Released Mar 8, 2012
+- initial release

@@ -892,6 +892,11 @@
 						if (d.getDate() > now.getDate()) s = 'Tomorrow';
 						else if (d.getHours() >= 18) s = 'Tonight';
 						return s;
+					},
+					cleanName: function(s) {
+						s += '';
+						s.replace(/,.+$/, '');
+						return s;
 					}
 				}
 			}, this.tpl);

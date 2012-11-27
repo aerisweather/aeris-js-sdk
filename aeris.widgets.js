@@ -618,7 +618,7 @@
 						if (s.snowIN) v = s.snowIN + '"';
 						else if (s.rainIN) v = s.rainIN + '"';
 						else if (s.windSpeedMPH) v = s.windSpeedMPH + ' mph';
-						return ((v != '') ? ' - ' + v : '');
+						return ((v !== '') ? ' - ' + v : '');
 					},
 					dateformat: function(s) {
 						var d;
@@ -636,7 +636,7 @@
 						var mn = d.getMinutes();
 
 						var ampm = (h >= 12) ? 'pm' : 'am';
-						h = (h > 12) ? h - 12 : ((h == 0) ? 12 : h);
+						h = (h > 12) ? h - 12 : ((h === 0) ? 12 : h);
 						mn = (mn < 10) ? '0' + mn : mn;
 
 						return ((m + 1) + '/' + dt + '/' + y + ' at ' + h + ':' + mn + ampm);
@@ -766,6 +766,15 @@
 					search: '<div class="aeris-widget-search">' +
 							'<label>Country</label><input type="text" name="aeris-tempextremes-search" />' +
 						'</div>'
+				},
+				helpers: {
+					ucwords: function(s) {
+						s = (s + '').toLowerCase();
+						s = s.replace(/,.+$/, '');
+						return (s + '').replace(/^([a-z])|\s+([a-z])|\/([a-z])|(\-[a-z])/g, function($1) {
+							return $1.toUpperCase();
+						});
+					}
 				}
 			},
 			opts: {
