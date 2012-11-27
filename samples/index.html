@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>untitled</title>
+
+	<style type="text/css">
+	body {font-family:'Arial','Helvetica',sans-serif;}
+	h4 {margin:20px 0 5px;}
+
+	.col {float:left;width:450px;}
+
+	#widget-currents {width:240px;height:100px;}
+	#widget-currents-compact {width:107px;height:55px;}
+	#widget-24hr-compact {width:230px;height:58px;}
+	#widget-fcst {width:400px;height:100px;}
+	#widget-nearby {width:300px;height:200px;}
+	#widget-advisories {width:300px;height:80px;}
+	#widget-stmreports {width:300px;height:400px;}
+	#widget-records {width:300px;height:400px;}
+	#widget-extremes {width:300px;height:115px;}
+
+	</style>
+
+	<link rel="stylesheet" type="text/css" media="all" href="../css/widget.css" />
+	<script type="text/javascript">
+
+	window.Aeris = window.Aeris || {
+		//version: '1.0.0b2',
+		base: 'http://localhost/clients/aeris/toolkits/aeris-js-sdk',
+		onLoad: function() {
+			Aeris.init({
+				client_id: 'wgE96YE3scTQLKjnqiMsv',
+				client_secret: 'sFA4Gfz8s8brxUUHoZTQ3iZIRy6YSwLhf1wJQzDi',
+				widgets: true,
+				debug: true
+			});
+		},
+		onReady: function() {
+			// widgets
+			var currents = new Aeris.widgets.Currents($('#widget-currents'), {
+
+			});
+
+			var currentsCompact = new Aeris.widgets.CurrentsCompact($('#widget-currents-compact'), {cls:'default-test'});
+
+			var currentsCompactAlt = new Aeris.widgets.CurrentsCompact($('#widget-currents-compact'), {cls:'alt-test', params: {p:'55415'}});
+
+			var outlookCompact = new Aeris.widgets.ShortTermOutlookCompact($('#widget-24hr-compact'), {
+				opts: {
+					resize: {
+						auto: false
+					}
+				}
+			});
+
+			var forecast = new Aeris.widgets.Forecast($('#widget-fcst'), {
+				opts: {
+					dateFormatter: function(date){
+
+					}
+				}
+			});
+
+			var nearby = new Aeris.widgets.NearbyWeather($('#widget-nearby'), {
+				params: {
+					p: '98109',
+					limit: 5,
+					query: 'pop:50000',
+					radius: '200mi'
+				}
+			});
+
+			var advisories = new Aeris.widgets.Advisories($('#widget-advisories'), {
+				params: {
+					p: 'birmingham,al'
+				}
+			});
+
+			var stormreports = new Aeris.widgets.StormReports($('#widget-stmreports'), {
+				params: {
+					p: ':auto',
+					from: '-5 days',
+					to: 'now',
+					sort: 'detail:-1'
+				},
+				opts: {
+					expires: 60,
+					resize: {
+						auto: false
+					}
+				}
+			});
+
+			var records = new Aeris.widgets.Records($('#widget-records'), {
+				params: {
+					p: ':auto',
+					from: '-5 days',
+					to: 'now',
+					sort: 'val:-1'
+				},
+				opts: {
+					expires: 60,
+					resize: {
+						auto: false
+					}
+				}
+			});
+
+			var extremes = new Aeris.widgets.TempExtremes($('#widget-extremes'), {
+				opts: {
+					country: 'us',
+					expires: 300
+				}
+			});
+
+		}
+	};
+
+	// wait for window.onload before loading our code
+	(function(w, d) {
+		var loader = function() {
+			Aeris.secure = (d.location.protocol === 'https:');
+			var b = (Aeris.secure === true) ? '' : '../';
+			//var b = '//' + ((Aeris.secure === true) ? 'js-secure' : 'js') + '.aerisapi.com/';
+			var v = Aeris.version;
+			var script = d.createElement('script'), tag = d.getElementsByTagName('script')[0];
+			script.type = 'text/javascript';
+			script.async = true;
+			script.src = b + ((v && v !== '') ? v + '/' : '') + 'aeris.js';
+			tag.parentNode.insertBefore(script, tag);
+		}
+		window.addEventListener ? window.addEventListener('load', loader, false) : window.attachEvent('onload', loader);
+	})(window, document);
+
+	</script>
+
+</head>
+
+<body>
+
+	<h1>Aeris JS Toolkit Widgets</h1>
+
+	<div class="col">
+		<h4>Currents</h4>
+		<div id="widget-currents"></div>
+
+		<h4>Forecast</h4>
+		<div id="widget-fcst"></div>
+
+		<h4>Nearby Weather</h4>
+		<div id="widget-nearby"></div>
+	</div>
+	<div class="col">
+		<h4>Currents Compact</h4>
+		<div id="widget-currents-compact"></div>
+
+		<h4>24hr Outlook Compact</h4>
+		<div id="widget-24hr-compact"></div>
+
+		<h4>Advisories</h4>
+		<div id="widget-advisories"></div>
+
+		<h4>Temp Extremes</h4>
+		<div id="widget-extremes"></div>
+
+	</div>
+	<div class="col">
+		<h4>Storm Reports</h4>
+		<div id="widget-stmreports"></div>
+
+		<h4>Records</h4>
+		<div id="widget-records"></div>
+	</div>
+
+</body>
+</html>

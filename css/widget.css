@@ -1,0 +1,278 @@
+/**
+*
+* @package AerisJS
+* @version $Id: widget.css 1096 2012-10-09 00:51:57Z nshipes $
+* @copyright (c) 2012 HAMweather, LLC
+* @license {LICENSE_URL} {LICENSE_TYPE}
+*
+*/
+
+@import url('./jquery-ui.custom.css');
+
+/* Core styles */
+.aeris-widget {position:relative;width:inherit;height:inherit;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#000;overflow:visible;line-height:normal;}
+.aeris-widget-loader {position:absolute;top:0;left:0;display:none;background:#ccc url(./assets/loader_ffffff_cccccc.gif) no-repeat center center;border:1px solid #aaa;-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;z-index:100;}
+.aeris-widget-loader-update {position:absolute;top:2px;right:4px;width:16px;height:20px;background:url(./assets/loader_spin_666666_fefefe.gif) no-repeat center center;}
+.aeris-widget-error {padding:20px 10px !important;font-size:12px;font-weight:bold;}
+.aeris-widget-error-top {background:#880000;color:#e3c4c4;padding:4px;font-size:10px;}
+.aeris-widget-error-top {
+	background: #5e0000;
+	background: -moz-linear-gradient(top,  #5e0000 0%, #880000 10%, #9b0000 50%, #880000 90%, #5e0000 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5e0000), color-stop(10%,#880000), color-stop(50%,#9b0000), color-stop(90%,#880000), color-stop(100%,#5e0000));
+	background: -webkit-linear-gradient(top,  #5e0000 0%,#880000 10%,#9b0000 50%,#880000 90%,#5e0000 100%);
+	background: -o-linear-gradient(top,	 #5e0000 0%,#880000 10%,#9b0000 50%,#880000 90%,#5e0000 100%);
+	background: -ms-linear-gradient(top,  #5e0000 0%,#880000 10%,#9b0000 50%,#880000 90%,#5e0000 100%);
+	background: linear-gradient(top,  #5e0000 0%,#880000 10%,#9b0000 50%,#880000 90%,#5e0000 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5e0000', endColorstr='#5e0000',GradientType=0 );
+}
+/* top */
+.aeris-widget-outer {border:1px solid #aaa;background:#ccc;-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;}
+.aeris-widget-inner {margin:5px;background:#eee;border:1px solid #999;-moz-border-radius:7px;-webkit-border-radius:7px;border-radius:7px;overflow:hidden;}
+.aeris-widget-top {position:relative;background:#fefefe;border-bottom:1px solid #333;height:26px;margin:0;z-index:0;}
+.aeris-widget-top {
+	-webkit-border-top-left-radius: 7px;
+	-webkit-border-top-right-radius: 7px;
+	-moz-border-radius-topleft: 7px;
+	-moz-border-radius-topright: 7px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+}
+.aeris-widget-top-sub {font-size:10px;background:#666;padding:2px 7px;color:#fff;}
+.aeris-widget-bottom {position:relative;}
+.aeris-widget-title {position:absolute;top:4px;left:5px;font-size:16px;line-height:18px;font-weight:bold;color:#333;}
+/* Toolbar */
+.aeris-widget-tbar {position:absolute;top:3px;right:3px;width:45px;height:20px;z-index:10;}
+.aeris-widget-tbar-btn {display:block;float:right;margin:0 0 0 2px;width:20px;height:20px;background:url(assets/top_btn_icons.png) no-repeat 0 0;}
+.aeris-widget-tbar-btn:hover {cursor:pointer;}
+.aeris-widget-tbar-btn-search {background-position:0 0;}
+.aeris-widget-tbar-btn-search:hover {background-position:0 -20px;}
+.aeris-widget-tbar-btn-geolocate {background-position:-20px 0;}
+.aeris-widget-tbar-btn-geolocate:hover {background-position:-20px -20px;}
+.aeris-widget-tbar-btn-submit {background-position:-40px -20px;}
+.aeris-widget-tbar-btn-submit:hover {background-position:-40px 0;}
+/* Search bar */
+.aeris-widget-search {background:#222;padding:5px;color:#ccc;font-size:9px;border-bottom:1px solid #222;}
+.aeris-widget-search {
+	background: #333333;
+	background: -moz-linear-gradient(top,  #333333 0%, #444444 30%, #444444 70%, #333333 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(30%,#444444), color-stop(70%,#444444), color-stop(100%,#333333));
+	background: -webkit-linear-gradient(top,  #333333 0%,#444444 30%,#444444 70%,#333333 100%);
+	background: -o-linear-gradient(top,	 #333333 0%,#444444 30%,#444444 70%,#333333 100%);
+	background: -ms-linear-gradient(top,  #333333 0%,#444444 30%,#444444 70%,#333333 100%);
+	background: linear-gradient(top,  #333333 0%,#444444 30%,#444444 70%,#333333 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#333333',GradientType=0 );
+}
+.aeris-widget-search label {margin:0 5px;}
+.aeris-widget-search input {width:200px;border:0;font-size:11px;padding:3px;color:#333;}
+.aeris-widget-search input {-moz-box-shadow:0 0 2px #666 inset;-webkit-box-shadow:0 0 2px #666 inset;box-shadow:0 0 2px #666 inset;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;}
+.aeris-widget-tbar-ctrls {position:absolute;top:0;right:0;}
+.aeris-widget-unit {font-size:.6em;font-weight:normal;}
+
+
+/* NearbyWeather */
+.aeris-widget-nearbywx-listing {margin:0;padding:0;}
+.aeris-widget-nearbywx-listing li {position:relative;height:43px;margin:0;padding:0;list-style:none;border-bottom:1px solid #dddddd;padding:8px;}
+.aeris-widget-nearbywx-listing li:last-child {border:0;}
+.aeris-widget-nearbywx-listing li div {position:absolute;}
+.aeris-widget-nearbywx-name {top:10px;left:8px;font-size:14px;}
+.aeris-widget-nearbywx-name a {text-decoration:none;color:#333;}
+.aeris-widget-nearbywx-name a:hover {text-decoration:underline;}
+.aeris-widget-nearbywx-icon {top:5px;right:8px;margin:0;}
+.aeris-widget-nearbywx-icon img {width:45px;height:44px;}
+.aeris-widget-nearbywx-temp {top:8px;right:60px;font-size:24px;text-align:right;}
+.aeris-widget-nearbywx-detail {top:35px;right:60px;text-align:right;font-size:11px;color:#444;}
+.aeris-widget-nearbywx-alerts {display:block;position:absolute;bottom:7px;left:8px;background:#bd0c0c;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;width:130px;height:20px;}
+.aeris-widget-nearbywx-count {position:absolute;width:30px;height:17px;background:#8e0808;color:#fff;font-weight:bold;font-size:12px;padding-top:3px;text-align:center;}
+.aeris-widget-nearbywx-count {-webkit-border-top-left-radius:3px;-webkit-border-bottom-left-radius:3px;-moz-border-radius-topleft:3px;-moz-border-radius-bottomleft:3px;border-top-left-radius:3px;border-bottom-left-radius:3px;}
+.aeris-widget-nearbywx-label {position:absolute;left:30px;width:100px;height:17px;color:#fed6d6;font-size:10px;padding:3px 5px 0;}
+.aeris-widget-nearbywx-alerts:hover {background:#dc2525;}
+
+
+/* Currents */
+.aeris-widget-currents .aeris-widget-bottom {position:relative;height:145px;}
+.aeris-widget-currents-wxblock {position:absolute;top:8px;left:8px;width:75px;}
+.aeris-widget-currents-icon {width:55px;margin-top:10px;background:#333;padding:5px;border:3px solid #fff;
+	-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;
+	-webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.46);-moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.46);box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.46);
+}
+.aeris-widget-currents-icon-day {background:#ccc;}
+.aeris-widget-currents-icon > img {width:55px;height:55px;}
+.aeris-widget-currents-temp {font-size:30px;font-weight:normal;margin-top:7px;text-align:center;}
+.aeris-widget-currents-wx {font-size:14px;font-weight:normal;text-align:right;}
+.aeris-widget-currents-detblock {position:absolute;top:8px;right:8px;width:125px;}
+.aeris-widget-currents-detblock ul,
+.aeris-widget-currents-detblock ul > li {margin:0;padding:0;list-style:none;}
+.aeris-widget-currents-detblock ul {margin-top:10px;border-top:1px solid #ccc;}
+.aeris-widget-currents-detblock ul > li {border-bottom:1px solid #ccc;height:100%;overflow:hidden;font-size:10px;padding:3px;}
+.aeris-widget-currents-detblock ul > li p {margin:0;}
+.aeris-widget-currents-detail-label {float:left;width:45%;text-align:left;}
+.aeris-widget-currents-detail-value {float:right;width:55%;font-weight:bold;text-align:right;}
+.aeris-widget-currents-advblock {background:#880000;padding:4px;}
+.aeris-widget-currents-advblock {
+	background: #770000;
+	background: -moz-linear-gradient(top,  #770000 0%, #a30000 10%, #a30000 90%, #770000 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#770000), color-stop(10%,#a30000), color-stop(90%,#a30000), color-stop(100%,#770000));
+	background: -webkit-linear-gradient(top,  #770000 0%,#a30000 10%,#a30000 90%,#770000 100%);
+	background: -o-linear-gradient(top,	 #770000 0%,#a30000 10%,#a30000 90%,#770000 100%);
+	background: -ms-linear-gradient(top,  #770000 0%,#a30000 10%,#a30000 90%,#770000 100%);
+	background: linear-gradient(top,  #770000 0%,#a30000 10%,#a30000 90%,#770000 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#770000', endColorstr='#770000',GradientType=0 );
+}
+.aeris-widget-currents-adv {color:#fff;font-size:10px;}
+.aeris-widget-currents .aeris-widget-search input {width:140px;}
+
+
+/* Currents Mini */
+.aeris-widget-currents-compact .aeris-widget-inner {position:relative;margin:3px;height:100%;overflow:hidden;}
+.aeris-widget-currents-compact-icon {float:left;margin:2px 8px 4px 3px;}
+.aeris-widget-currents-compact-icon img {width:40px;height:40px;}
+.aeris-widget-currents-compact-temp {float:right;margin:8px 3px 0 0;font-size:28px;text-align:right;}
+.aeris-widget-currents-compact-alert {position:absolute;top:2px;left:2px;width:20px;height:18px;background:url(assets/alert.png) no-repeat center center;}
+
+
+/* 24 Hour Compact */
+.aeris-widget-24hr-compact .aeris-widget-inner {margin:3px;height:50px;}
+.aeris-widget-24hr-compact-pad {position:relative;margin:2px 5px;}
+.aeris-widget-24hr-compact-now {float:left;width:40%;height:100%;overflow:hidden;margin-right:-1px;border-right:1px solid #ccc;}
+.aeris-widget-24hr-compact-now .aeris-widget-24hr-compact-title {clear:both;margin-top:5px;font-size:10px;color:#333;}
+.aeris-widget-24hr-compact-now .aeris-widget-24hr-compact-icon {position:absolute;top:12px;}
+.aeris-widget-24hr-compact-now .aeris-widget-24hr-compact-icon img {height:30px;width:30px;}
+.aeris-widget-24hr-compact-now .aeris-widget-24hr-compact-temp {position:absolute;top:14px;left:35px;font-size:24px;text-align:right;}
+.aeris-widget-24hr-compact-now .aeris-widget-currents-compact-alert {position:absolute;top:11px;left:-3px;width:20px;height:18px;background:url(assets/alert.png) no-repeat center center;}
+.aeris-widget-24hr-compact-periods {float:right;width:60%;}
+.aeris-widget-24hr-compact-period {float:left;width:50%;height:50px;overflow:hidden;}
+.aeris-widget-24hr-compact-period-last {-webkit-border-top-right-radius:6px;-moz-border-radius-topright:6px;border-top-right-radius:6px;}
+.aeris-widget-24hr-compact-period .aeris-widget-24hr-compact-title {font-size:10px;background:#333;color:#eee;padding:4px 5px 2px 6px;}
+.aeris-widget-24hr-compact-period .aeris-widget-24hr-compact-icon {position:absolute;top:0;}
+.aeris-widget-24hr-compact-period .aeris-widget-24hr-compact-icon img {width:25px;height:25px;}
+.aeris-widget-24hr-compact-period .aeris-widget-24hr-compact-temp {position:absolute;top:-2px;left:30px;font-size:18px;line-height:30px;}
+
+
+/* Forecast */
+.aeris-widget-fcst-periods ul {margin:0;padding:0;overflow:hidden;width:100%;height:100%;}
+.aeris-widget-fcst-periods ul > li {margin:0;padding:0;list-style:none;float:left;border-right:1px solid #666;width:50px;}
+.aeris-widget-fcst-periods ul > li p {text-align:center;margin:4px 0;}
+.aeris-widget-fcst-period-name {background:#333;padding:5px 0;margin-top:0 !important;font-size:11px;font-weight:bold;color:#fff;}
+.aeris-widget-fcst-period-hi {font-size:18px;font-weight:bold;color:#000;}
+.aeris-widget-fcst-period-lo {font-size:14px;font-weight:normal;color:#333;}
+.aeris-widget-fcst-period-icon {margin:10px 0 !important;}
+.aeris-widget-fcst-period-icon img {width:35px;height:35px;}
+.aeris-widget-fcst-periods ul > li:last-child {border:0 !important;}
+
+
+/* Advisories */
+.aeris-widget-advisories-listing {margin:0;padding:0;list-style:none;}
+.aeris-widget-advisories-listing > li {margin:0;padding:5px;border-bottom:1px solid #ccc;position:relative;}
+.aeris-widget-advisories-listing > li:last-child {border:0;}
+.aeris-widget-advisories-name {font-size:11px;font-weight:bold;margin:0 0 0px 0;}
+.aeris-widget-advisories-expires {font-size:9px;color:#666;margin:0;}
+.aeris-widget-advisories-icon {position:absolute;top:4px;right:5px;width:25px;height:25px;background:url(assets/alert_icons.png) no-repeat 0 -50px;}
+.aeris-widget-advisories-icon-warn {background-position:0 0;}
+.aeris-widget-advisories-icon-watch {background-position:0 -25px;}
+
+
+/* Temp Extremes */
+.aeris-widget-tempextremes ul {margin:0;padding:0;list-style:none;width:100%;}
+.aeris-widget-tempextremes ul > li {height:70px;margin:0;padding:0 0 5px 0;float:left;width:50%;}
+.aeris-widget-tempextremes ul > li:first-child {border-right:1px solid #ccc;margin-right:-1px;}
+.aeris-widget-tempextremes-profile {float:left;}
+.aeris-widget-tempextremes-name {font-size:11px;font-weight:bold;}
+.aeris-widget-tempextremes-val {font-size:26px;font-weight:normal;margin-top:2px;}
+.aeris-widget-tempextremes-icon {float:left;width:10px;height:40px;margin:5px 8px 0 5px;background:url(assets/widget_tempextremes_thermo.png) no-repeat 0 0;}
+.aeris-widget-tempextremes-label {font-size:11px;background:#666;color:#fff;padding:3px 7px;margin-bottom:3px;}
+.aeris-widget-tempextremes-max .aeris-widget-tempextremes-label {background-color:#880000;}
+.aeris-widget-tempextremes-min .aeris-widget-tempextremes-label {background-color:#003399;}
+.aeris-widget-tempextremes-min .aeris-widget-tempextremes-icon {background-position:-10px 0;}
+.aeris-widget-tempextremes-error {font-size:10px;font-style:italic;text-align:center;line-height:50px;}
+
+
+/* Storm Reports */
+.aeris-widget-stmreports-ctrl {background:#222;color:#ccc;}
+.aeris-widget-stmreports-listing { }
+.aeris-widget-stmreports-listing > ul,
+.aeris-widget-stmreports-ctrl > ul,
+.aeris-widget-stmreports-listing > ul > li,
+.aeris-widget-stmreports-ctrl > ul > li {margin:0;padding:0;list-style:none;}
+.aeris-widget-stmreports-ctrl > ul > li.sel {
+	background:#eee;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.aeris-widget-stmreports-ctrl > ul > li > a {display:block;padding:5px 7px 3px 7px;color:#ccc;font-size:10px;cursor:pointer;}
+.aeris-widget-stmreports-ctrl > ul > li > a:hover {color:#fff;}
+.aeris-widget-stmreports-ctrl > ul > li.sel > a {color:#333;}
+.aeris-widget-stmreports-ctrl > ul {height:100%;overflow:hidden;}
+.aeris-widget-stmreports-ctrl > ul > li {float:left;margin:0 2px;}
+.aeris-widget-stmreports-listing > ul > li {position:relative;border-bottom:1px solid #ccc;padding:5px;height:100%;overflow:hidden;}
+.aeris-widget-stmreports-listing > ul > li:last-child {border:0;}
+.aeris-widget-stmreports-listing {overflow:auto;height:400px;}
+.aeris-widget-stmreports-profile {float:left;}
+.aeris-widget-stmreports-name {font-size:12px;font-weight:bold;margin-bottom:2px;}
+.aeris-widget-stmreports-total {font-size:10px;font-weight:bold;}
+.aeris-widget-stmreports-details {font-size:9px;font-weight:normal;}
+.aeris-widget-stmreports-icon {float:left;width:20px;height:20px;margin:3px 8px 0 2px;background:url(assets/icons_sprite.png) no-repeat 0 0;}
+.aeris-widget-stmreports-icon-code-T,
+.aeris-widget-stmreports-icon-code-C,
+.aeris-widget-stmreports-icon-code-W {background-position:0 0;}
+.aeris-widget-stmreports-icon-code-L {background-position:0 -20px;}
+.aeris-widget-stmreports-icon-code-H {background-position:0 -40px;}
+.aeris-widget-stmreports-icon-code-V {background-position:0 -60px;}
+.aeris-widget-stmreports-icon-code-fire {background-position:0 -80px;}
+.aeris-widget-stmreports-icon-code-freeze {background-position:0 -100px;}
+.aeris-widget-stmreports-icon-code-s,
+.aeris-widget-stmreports-icon-code-5 {background-position:0 -120px;}
+.aeris-widget-stmreports-icon-code-E,
+.aeris-widget-stmreports-icon-code-F,
+.aeris-widget-stmreports-icon-code-R {background-position:0 -140px;}
+.aeris-widget-stmreports-icon-code-S {background-position:0 -160px;}
+.aeris-widget-stmreports-icon-code-4 {background-position:0 -180px;}
+.aeris-widget-stmreports-icon-code-O,
+.aeris-widget-stmreports-icon-code-D,
+.aeris-widget-stmreports-icon-code-N,
+.aeris-widget-stmreports-icon-code-G	 {background-position:0 -200px;}
+.aeris-widget-stmreports-icon-code-J {background-position:0 -220px;}
+.aeris-widget-stmreports-icon-code-dust {background-position:0 -240px;}
+
+/* Records */
+.aeris-widget-records-ctrl {background:#222;color:#ccc;}
+.aeris-widget-records-listing { }
+.aeris-widget-records-listing > ul,
+.aeris-widget-records-ctrl > ul,
+.aeris-widget-records-listing > ul > li,
+.aeris-widget-records-ctrl > ul > li {margin:0;padding:0;list-style:none;}
+.aeris-widget-records-ctrl > ul > li.sel {
+	background:#eee;
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.aeris-widget-records-ctrl > ul > li > a {display:block;padding:5px 5px 3px 5px;color:#ccc;font-size:10px;cursor:pointer;}
+.aeris-widget-records-ctrl > ul > li > a:hover {color:#fff;}
+.aeris-widget-records-ctrl > ul > li.sel > a {color:#333;}
+.aeris-widget-records-ctrl > ul {height:100%;overflow:hidden;}
+.aeris-widget-records-ctrl > ul > li {float:left;margin:0 1px;}
+.aeris-widget-records-listing > ul > li {position:relative;border-bottom:1px solid #ccc;padding:5px;height:100%;overflow:hidden;}
+.aeris-widget-records-listing > ul > li:last-child {border:0;}
+.aeris-widget-records-listing {overflow:auto;height:400px;}
+.aeris-widget-records-profile {float:left;}
+.aeris-widget-records-name {font-size:12px;font-weight:bold;margin-bottom:2px;}
+.aeris-widget-records-total {font-size:10px;font-weight:bold;}
+.aeris-widget-records-details {font-size:9px;font-weight:normal;}
+.aeris-widget-records-icon {float:left;width:20px;height:20px;margin:3px 8px 0 2px;background:url(assets/icons_sprite.png) no-repeat 0 0;}
+.aeris-widget-records-icon-type-snow {background-position:0 -160px;}
+.aeris-widget-records-icon-type-prcp {background-position:0 -140px;}
+.aeris-widget-records-icon-type-maxt {background-position:0 -280px;}
+.aeris-widget-records-icon-type-lomx {background-position:0 -320px;}
+.aeris-widget-records-icon-type-mint {background-position:0 -280px;}
+.aeris-widget-records-icon-type-himn {background-position:0 -300px;}
+
+
+/* jUI overrides */
+.aeris-widget .ui-autocomplete-loading {background-image:url(assets/loader_spin_666666_fefefe.gif);background-position:right center;background-repeat:no-repeat;}
