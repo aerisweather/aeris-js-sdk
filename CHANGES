@@ -1,4 +1,12 @@
 
+1.2.2 - Released Nov 28, 2012
+- FIX: Clean up place names in extremes widget
+- FIX: issue where static width/height values were being set to zero if widget container dimensions are returned as 0 (when in a tab)
+- FIX: js error when there isn't a valid data object return for storm report details from the api
+- FIX: document.domain causing errors when using the sdk as part of a chrome or firefox extension, switched to use document.documentURI for the app_id and stripped off everything but the domain
+- FIX: sdk base wasn't forcing http:// or https:// protocols
+- ADD: Support passing new options to widget reload() method (e.g. new location for the reload process)
+
 1.2.1 - Released Jul 11, 2012
 - FIX: overriding template string in widgets does not use default helpers/partials for the parent widget object
 - FIX: conflicts with some JS libraries (specifically MooTools) where the library was adding functions to core JS objects causing tons of `undefined` endpoint requests
