@@ -480,11 +480,11 @@
 				batch.fetch([{
 					endpoint: Aeris.endpoints.OBS,
 					action: Aeris.actions.ID,
-					params: $.extend(true, {}, this.params)
+					params: { p: place }
 				},{
 					endpoint: Aeris.endpoints.ADVISORIES,
 					action: Aeris.actions.ID,
-					params: $.extend(true, {}, this.params)
+					params: { p: place }
 				}], {});
 			}
 		}
