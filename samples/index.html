@@ -10,6 +10,7 @@
 	<style type="text/css">
 	body {font-family:'Arial','Helvetica',sans-serif;}
 	h4 {margin:20px 0 5px;}
+	h1 > span {font-size:14px;font-weight:normal;}
 
 	.col {float:left;width:450px;}
 
@@ -27,6 +28,8 @@
 
 	<link rel="stylesheet" type="text/css" media="all" href="../css/widget.css" />
 	<script type="text/javascript">
+
+	var units;
 
 	window.Aeris = window.Aeris || {
 		//version: '1.0.0b2',
@@ -111,6 +114,27 @@
 				}
 			});
 
+			// add handler for units switch link
+			units = Aeris.units.ENGLISH;
+			$('#units-toggle').click(function(e){
+				e.preventDefault();
+
+				if (units == Aeris.units.ENGLISH) {
+					units = Aeris.units.METRIC;
+				}
+				else {
+					units = Aeris.units.ENGLISH;
+				}
+
+				// update all widgets
+				currents.setUnits(units);
+				currentsCompact.setUnits(units);
+				outlookCompact.setUnits(units);
+				forecast.setUnits(units);
+				nearby.setUnits(units);
+				extremes.setUnits(units);
+			})
+
 		}
 	};
 
@@ -136,7 +160,7 @@
 
 <body>
 
-	<h1>Aeris JS Toolkit Widgets</h1>
+	<h1>Aeris JS Toolkit Widgets <span><a href="#" id="units-toggle">toggle units</a></span></h1>
 
 	<div class="col">
 		<h4>Currents</h4>

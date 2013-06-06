@@ -49,16 +49,16 @@
 					'<div class="aeris-widget-bottom">' +
 						'<div class="aeris-widget-currents-wxblock">' +
 							'<div class="aeris-widget-currents-icon{{#observations.0.ob.isDay}} aeris-widget-currents-icon-day{{/observations.0.ob.isDay}}"><img src="{{paths.wxicons}}{{observations.0.ob.icon}}" /></div>' +
-							'<div class="aeris-widget-currents-temp">{{observations.0.ob.tempF}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">F</span></div>' +
+							'<div class="aeris-widget-currents-temp">{{#if metric}}{{observations.0.ob.tempC}}{{else}}{{observations.0.ob.tempF}}{{/if}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">{{#if metric}}C{{else}}F{{/if}}</span></div>' +
 						'</div>' +
 						'<div class="aeris-widget-currents-detblock">' +
 							'<div class="aeris-widget-currents-wx">{{observations.0.ob.weatherShort}}</div>' +
 							'<ul>' +
-								'<li><p class="aeris-widget-currents-detail-label">Feels Like</p><p class="aeris-widget-currents-detail-value">{{observations.0.ob.feelslikeF}}&deg;</p></li>' +
-								'<li><p class="aeris-widget-currents-detail-label">Winds</p><p class="aeris-widget-currents-detail-value">{{observations.0.ob.windDir}} {{observations.0.ob.windMPH}} mph</p></li>' +
-								'<li><p class="aeris-widget-currents-detail-label">Dew Point</p><p class="aeris-widget-currents-detail-value">{{observations.0.ob.dewpointF}}&deg;</p></li>' +
+								'<li><p class="aeris-widget-currents-detail-label">Feels Like</p><p class="aeris-widget-currents-detail-value">{{#if metric}}{{observations.0.ob.feelslikeC}}{{else}}{{observations.0.ob.feelslikeF}}{{/if}}&deg;</p></li>' +
+								'<li><p class="aeris-widget-currents-detail-label">Winds</p><p class="aeris-widget-currents-detail-value">{{observations.0.ob.windDir}} {{#if metric}}{{observations.0.ob.windKPH}} kmh{{else}}{{observations.0.ob.windMPH}} mph{{/if}}</p></li>' +
+								'<li><p class="aeris-widget-currents-detail-label">Dew Point</p><p class="aeris-widget-currents-detail-value">{{#if metric}}{{observations.0.ob.dewpointC}}{{else}}{{observations.0.ob.dewpointF}}{{/if}}&deg;</p></li>' +
 								'<li><p class="aeris-widget-currents-detail-label">Humidity</p><p class="aeris-widget-currents-detail-value">{{observations.0.ob.humidity}}%</p></li>' +
-								'<li><p class="aeris-widget-currents-detail-label">Pressure</p><p class="aeris-widget-currents-detail-value">{{observations.0.ob.pressureIN}} in</p></li>' +
+								'<li><p class="aeris-widget-currents-detail-label">Pressure</p><p class="aeris-widget-currents-detail-value">{{#if metric}}{{observations.0.ob.pressureMB}} mb{{else}}{{observations.0.ob.pressureIN}} in{{/if}}</p></li>' +
 							'</ul>' +
 						'</div>' +
 					'</div>' +
@@ -72,16 +72,19 @@
 			this.showLoader();
 			var widget = this;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.fetch([{
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.PLACES,
 				params: {
 					p: this.params.p
@@ -118,7 +121,7 @@
 			tpl: '<div class="aeris-widget-outer aeris-widget-currents-compact">' +
 				'<div class="aeris-widget-inner">' +
 					'<div class="aeris-widget-currents-compact-icon"><img src="{{paths.wxicons}}{{observations.0.ob.icon}}" /></div>' +
-					'<div class="aeris-widget-currents-compact-temp">{{observations.0.ob.tempF}}&deg;</div>' +
+					'<div class="aeris-widget-currents-compact-temp">{{#if metric}}{{observations.0.ob.tempC}}{{else}}{{observations.0.ob.tempF}}{{/if}}&deg;</div>' +
 					'{{#advisories}}<div class="aeris-widget-currents-compact-alert"></div>{{/advisories}}' +
 				'</div>' +
 			'</div>'
@@ -129,16 +132,19 @@
 			this.showLoader();
 			var widget = this;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.fetch([{
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.PLACES
 			},{
 				endpoint: Aeris.endpoints.OBS
@@ -161,7 +167,7 @@
 							'<div class="aeris-widget-24hr-compact-pad">' +
 								'<div class="aeris-widget-24hr-compact-title">Currently</div>' +
 								'<div class="aeris-widget-24hr-compact-icon"><img src="{{paths.wxicons}}{{observations.0.ob.icon}}" /></div>' +
-								'<div class="aeris-widget-24hr-compact-temp">{{observations.0.ob.tempF}}&deg;</div>' +
+								'<div class="aeris-widget-24hr-compact-temp">{{#if metric}}{{observations.0.ob.tempC}}{{else}}{{observations.0.ob.tempF}}{{/if}}&deg;</div>' +
 								'{{#advisories}}<div class="aeris-widget-currents-compact-alert"></div>{{/advisories}}' +
 							'</div>' +
 						'</div>' +
@@ -170,16 +176,16 @@
 								'<div class="aeris-widget-24hr-compact-title">{{timeofday validTime}}</div>' +
 								'<div class="aeris-widget-24hr-compact-pad">' +
 									'<div class="aeris-widget-24hr-compact-icon"><img src="{{../paths.wxicons}}{{icon}}" /></div>' +
-									'<div class="aeris-widget-24hr-compact-temp">{{minmax this}}&deg;</div>' +
+									'<div class="aeris-widget-24hr-compact-temp">{{minmax this ../metric}}&deg;</div>' +
 								'</div>' +
 							'</div>{{/forecasts.0.periods}}' +
 						'</div>' +
 					'</div>' +
 				'</div>',
 				helpers: {
-					minmax: function(v) {
-						if (v.isDay === true) return v.maxTempF;
-						return v.minTempF;
+					minmax: function(v, metric) {
+						if (v.isDay === true) return (metric ? v.maxTempC : v.maxTempF);
+						return (metric ? v.minTempC : v.minTempF);
 					}
 				}
 			},
@@ -195,16 +201,19 @@
 			this.showLoader();
 			var widget = this;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.fetch([{
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.OBS,
 				params: {
 					p: this.params.p
@@ -252,10 +261,10 @@
 										'<p class="aeris-widget-fcst-period-name">{{#if ../isHourly}}{{hourformat validTime}}{{else}}{{dayformat validTime}}{{/if}}</p>' +
 										'<p class="aeris-widget-fcst-period-icon"><img src="{{../paths.wxicons}}{{icon}}" /></p>' +
 										'{{#if ../isHourly}}' +
-											'<p class="aeris-widget-fcst-period-hi">{{tempF}}&deg;</p>' +
+											'<p class="aeris-widget-fcst-period-hi">{{#if ../../metric}}{{tempC}}{{else}}{{tempF}}{{/if}}&deg;</p>' +
 										'{{else}}' +
-											'<p class="aeris-widget-fcst-period-hi">{{maxTempF}}&deg;</p>' +
-											'<p class="aeris-widget-fcst-period-lo">{{minTempF}}&deg;</p>' +
+											'<p class="aeris-widget-fcst-period-hi">{{#if ../../metric}}{{maxTempC}}{{else}}{{maxTempF}}{{/if}}&deg;</p>' +
+											'<p class="aeris-widget-fcst-period-lo">{{#if ../../metric}}{{minTempC}}{{else}}{{minTempF}}{{/if}}&deg;</p>' +
 										'{{/if}}' +
 									'</li>' +
 								'{{/forecasts.0.periods}}</ul>' +
@@ -311,16 +320,19 @@
 			this.showLoader();
 			var widget = this;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.fetch([{
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.PLACES,
 				params: { p: this.params.p }
 			},{
@@ -330,7 +342,6 @@
 		},
 
 		_beforeRender: function(data) {
-			console.log(data);
 			data.isHourly = false;
 			data.isDayNight = false;
 
@@ -387,9 +398,9 @@
 									'<div class="aeris-widget-nearbywx-name"><a href="{{../links.wxlocal}}?pands={{lower places.place.name}},{{#if places.place.state}}{{lower places.place.state}}{{else}}{{lower places.place.country}}{{/if}}">' +
 										'{{places.place.name}}{{#if places.place.state}}, {{places.place.state}}{{/if}}' +
 									'</a></div>' +
-									'<div class="aeris-widget-nearbywx-temp">{{observations.0.ob.tempF}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">F</span></div>' +
+									'<div class="aeris-widget-nearbywx-temp">{{#if ../metric}}{{observations.0.ob.tempC}}{{else}}{{observations.0.ob.tempF}}{{/if}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">{{#if ../metric}}C{{else}}F{{/if}}</span></div>' +
 									'<div class="aeris-widget-nearbywx-icon"><img src="{{../paths.wxicons}}{{observations.0.ob.icon}}" /></div>' +
-									'<div class="aeris-widget-nearbywx-detail">Feels Like {{observations.0.ob.feelslikeF}}&deg;</div>' +
+									'<div class="aeris-widget-nearbywx-detail">Feels Like {{#if ../metric}}{{observations.0.ob.feelslikeC}}{{else}}{{observations.0.ob.feelslikeF}}{{/if}}&deg;</div>' +
 									'{{#if advisories}}<a class="aeris-widget-nearbywx-alerts" href="{{../../links.wxlocal}}local/{{lower places.place.country}}/{{lower places.place.state}}/{{lower places.place.name}}/warnings.html">' +
 										'<div class="aeris-widget-nearbywx-count">{{advisories.length}}</div>' +
 										'<div class="aeris-widget-nearbywx-label">active alerts</div></a>{{/if}}' +
@@ -400,8 +411,16 @@
 				'</div>'
 		},
 
-		// store for the places we're using
+		// store for the places and their data we're using
 		places: [],
+		placesData: [],
+
+		setUnits: function(units) {
+			if (units != this.opts.units) {
+				this.opts.units = units;
+				this.render({locations: this.placesData});
+			}
+		},
 
 		load: function() {
 			if (this._geo()) return;
@@ -409,36 +428,40 @@
 			this.showLoader();
 			var widget = this;
 
-			// load place first, then weather data
-			var places = new Aeris.collections.Places();
-			places.bind('load', function(collection){
-				widget.hideLoader();
+			if (!this.collection) {
+				// load place first, then weather data
+				this.collection = new Aeris.collections.Places();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
 
-				var locData = [];
-				widget.places.length = 0;
-				Aeris._.each(collection.models, function(model){
-					// store loc to pass to weather loader for the request
-					widget.places.push(model.get('place.name') + ',' + model.get('place.state') + ',' + model.get('place.country'));
-					// setup data object to pass to template renderer for places
-					locData.push({
-						places: model.toJSON(),
-						observations: [{
-							ob: {
-								icon: 'na.png'
-							}
-						}]
+					var locData = [];
+					widget.places.length = 0;
+					Aeris._.each(collection.models, function(model){
+						// store loc to pass to weather loader for the request
+						widget.places.push(model.get('place.name') + ',' + model.get('place.state') + ',' + model.get('place.country'));
+						// setup data object to pass to template renderer for places
+						locData.push({
+							places: model.toJSON(),
+							observations: [{
+								ob: {
+									icon: 'na.png'
+								}
+							}]
+						});
 					});
-				});
-				widget.render({locations: locData});
+					widget.render({locations: locData});
+					widget.placesData = locData;
 
-				// now load weather data for the returned places
-				widget._loadWxData(collection);
-			});
-			places.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			places.fetch(Aeris.actions.CLOSEST, this.params);
+					// now load weather data for the returned places
+					widget._loadWxData(collection);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch(Aeris.actions.CLOSEST, this.params);
 		},
 
 		_loadWxData: function(placesColl) {
@@ -469,6 +492,7 @@
 
 					// only render rows if we've received all location data
 					if (c === len) {
+						widget.placesData = locData;
 						widget.hideLoader();
 						widget.render({locations: locData});
 					}
@@ -614,7 +638,7 @@
 					row: '<li>' +
 							'<div class="aeris-widget-stmreports-icon aeris-widget-stmreports-icon-code-{{report.code}}"></div>' +
 							'<div class="aeris-widget-stmreports-profile">' +
-								'<div class="aeris-widget-stmreports-name">{{ucwords report.type}}<span class="aeris-widget-stmreports-total">{{total report.detail}}</span></div>' +
+								'<div class="aeris-widget-stmreports-name">{{ucwords report.type}}<span class="aeris-widget-stmreports-total">{{total report.detail metric}}</span></div>' +
 								'<div class="aeris-widget-stmreports-details">{{ucwords place.name}}, {{upper place.state}} - {{dateformat report.datetime}}</div>' +
 							'</div>' +
 						'</li>',
@@ -631,7 +655,8 @@
 						'</div>'
 				},
 				helpers: {
-					total: function(s) {
+					total: function(s, metric) {
+						console.log('metric='+metric);
 						var v = '';
 						if (s.snowIN) v = s.snowIN + '"';
 						else if (s.rainIN) v = s.rainIN + '"';
@@ -675,16 +700,19 @@
 			this.showLoader();
 			var widget = this;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.fetch([{
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.PLACES,
 				params: {
 					p: this.params.p
@@ -757,7 +785,7 @@
 									'<div class="aeris-widget-tempextremes-icon"></div>' +
 									'<div class="aeris-widget-tempextremes-profile">' +
 									'{{#if observations.0.ob}}' +
-										'<div class="aeris-widget-tempextremes-val">{{observations.0.ob.tempF}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">F</span></div>' +
+										'<div class="aeris-widget-tempextremes-val">{{#if metric}}{{observations.0.ob.tempC}}{{else}}{{observations.0.ob.tempF}}{{/if}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">{{#if metric}}C{{else}}F{{/if}}</span></div>' +
 										'<div class="aeris-widget-tempextremes-name">{{ucwords observations.0.place.name}}}{{#if observations.0.place.state}}, {{upper observations.0.place.state}}{{/if}}</div>' +
 									'{{else}}' +
 										'<div class="aeris-widget-tempextremes-error">No observation found.</div>' +
@@ -769,7 +797,7 @@
 									'<div class="aeris-widget-tempextremes-icon"></div>' +
 									'<div class="aeris-widget-tempextremes-profile">' +
 									'{{#if observations.1.ob}}' +
-										'<div class="aeris-widget-tempextremes-val">{{observations.1.ob.tempF}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">F</span></div>' +
+										'<div class="aeris-widget-tempextremes-val">{{#if metric}}{{observations.1.ob.tempC}}{{else}}{{observations.1.ob.tempF}}{{/if}}&deg;<span class="aeris-widget-unit aeris-widget-unit-temp">{{#if metric}}C{{else}}F{{/if}}</span></div>' +
 										'<div class="aeris-widget-tempextremes-name">{{ucwords observations.1.place.name}}{{#if observations.1.place.state}}, {{upper observations.1.place.state}}{{/if}}</div>' +
 									'{{else}}' +
 										'<div class="aeris-widget-tempextremes-error">No observation found.</div>' +
@@ -811,19 +839,22 @@
 			//if (this.params.state) query += ',state:' + this.params.state;
 			if (this.params.query) query += this.params.query;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.bind('collectionerror', function(collection){
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+				this.collection.bind('collectionerror', function(collection){
 
-			});
-			batch.fetch([{
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.OBS,
 				action: Aeris.actions.SEARCH,
 				params: {
@@ -920,7 +951,7 @@
 					row: '<li>' +
 							'<div class="aeris-widget-records-icon aeris-widget-records-icon-type-{{report.type}}"></div>' +
 							'<div class="aeris-widget-records-profile">' +
-								'<div class="aeris-widget-records-name">{{typename report.type}}<span class="aeris-widget-records-total">{{total report.detail}}</span></div>' +
+								'<div class="aeris-widget-records-name">{{typename report.type}}<span class="aeris-widget-records-total">{{total report.detail ../metric}}</span></div>' +
 								'<div class="aeris-widget-records-details">{{ucwords place.name}}, {{upper place.state}} - {{dateformat report.timestamp}}</div>' +
 							'</div>' +
 						'</li>',
@@ -948,7 +979,7 @@
 						else n = s;
 						return n;
 					},
-					total: function(s) {
+					total: function(s, metric) {
 						var v = '';
 						s = s || {};
 						if (undefined !== s.snowIN) v = s.snowIN + '"';
@@ -986,16 +1017,19 @@
 			this.showLoader();
 			var widget = this;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.fetch([{
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.PLACES,
 				params: {
 					p: this.params.p

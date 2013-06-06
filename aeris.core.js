@@ -22,8 +22,9 @@
 	// if (!_ && (typeof require !== 'undefined')) _ = require(['underscore'], function(_, $) {
 	//
 	// });
-	Aeris._ = _.noConflict();
-	var $ = root.jQuery;
+	//Aeris._ = _.noConflict();
+	//var $ = root.jQuery;
+	Aeris._ = _;
 
 	// Extend default config with passed in config options.
 	// The third object are config options that should not be overriden.
@@ -85,6 +86,11 @@
 		CLOSEST	: 'closest',
 		WITHIN	: 'within',
 		SEARCH	: 'search'
+	};
+
+	Aeris.units = {
+		METRIC		: 1,
+		ENGLISH		: 0
 	};
 
 	Aeris.supportsEndpoint = function(endpoint) {
@@ -524,12 +530,14 @@
 			prefix: null,
 			cls: '',
 			tpl: '',
+			collection: null,
 			params: {
 				p: ':auto'
 			},
 			opts: {
 				expires: 0,
 				autoload: true,
+				units: Aeris.units.ENGLISH,
 				resize: {
 					auto: true,
 					anim: false
@@ -599,6 +607,17 @@
 				this.el.css({ width: w, height: h });
 				if (callback) callback();
 			}
+		},
+
+		setUnits: function(units) {
+			if (units != this.opts.units) {
+				this.opts.units = units;
+				this.render(this.collection.toJSON().data);
+			}
+		},
+
+		isMetric: function() {
+			return (this.opts.units == Aeris.units.METRIC);
 		},
 
 		showLoader: function() {
@@ -683,6 +702,8 @@
 			data = Aeris._.extend({}, Aeris.config, data);
 			// pass widget params to template for any conditionals that are needed
 			data.params = this.params;
+			// pass units setting to template for conditions check
+			data.metric = this.isMetric();
 
 			this._beforeRender(data);
 			this.content.html(this.view.render(data).el);
