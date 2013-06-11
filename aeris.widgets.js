@@ -656,7 +656,6 @@
 				},
 				helpers: {
 					total: function(s, metric) {
-						console.log('metric='+metric);
 						var v = '';
 						if (s.snowIN) v = s.snowIN + '"';
 						else if (s.rainIN) v = s.rainIN + '"';

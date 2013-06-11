@@ -278,9 +278,14 @@
 			return this.models[index];
 		},
 
+		// returns the total number of model objects currently loaded
+		count: function() {
+			return this.models.length;
+		},
+
 		// clears all models currently stored
 		reset: function() {
-			this.models = [];
+			this.models.length = 0;
 		},
 
 		// determines if this collection supports a specific action
@@ -798,6 +803,7 @@
 					if (val !== '') {
 						widget.params.p = $('input', searchEl).val();
 						searchEl.slideUp(250, 'easeInOutQuint');
+						widget.collection.reset();
 						widget.load();
 					}
 				});
@@ -820,6 +826,7 @@
 						searchEl.slideUp(250, 'easeInOutQuint');
 					}
 					widget.params.p = ':auto';
+					widget.collection.reset();
 					widget.load();
 				});
 			}
@@ -1240,6 +1247,12 @@
 				}
 			}
 			return c;
+		},
+
+		reset: function() {
+			for (var i in this.collections) {
+				this.collections[i].reset();
+			}
 		},
 
 		// Override superclass `fetch` function to handle batch requests.
