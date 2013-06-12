@@ -548,6 +548,7 @@
 				helpers: {
 					alerttype: function(s) {
 						var type = 'adv';
+						s += '';
 						if (s.match(/\.W$/)) type = 'warn';
 						else if (s.match(/\.A$/)) type = 'watch';
 						return type;
@@ -556,6 +557,7 @@
 						var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 						var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','Decemeber'];
 						var d;
+						s += '';
 						if (typeof(s) === 'string') {
 							var p = s.split(/-|\+|\s+|:|T/);
 							d = new Date(p[0], p[1]-1, p[2], p[3], p[4], p[5], 0);
@@ -582,16 +584,19 @@
 			this.showLoader();
 			var widget = this;
 
-			var batch = new Aeris.collections.Batch();
-			batch.bind('load', function(collection){
-				widget.hideLoader();
-				widget.render(collection.toJSON().data);
-			});
-			batch.bind('loaderror', function(collection, code, error){
-				widget.hideLoader();
-				widget.showError(error, 2000);
-			});
-			batch.fetch([{
+			if (!this.collection) {
+				this.collection = new Aeris.collections.Batch();
+				this.collection.bind('load', function(collection){
+					widget.hideLoader();
+					widget.render(collection.toJSON().data);
+				});
+				this.collection.bind('loaderror', function(collection, code, error){
+					widget.hideLoader();
+					widget.showError(error, 2000);
+				});
+			}
+
+			this.collection.fetch([{
 				endpoint: Aeris.endpoints.PLACES,
 				params: {
 					p: this.params.p
@@ -657,6 +662,7 @@
 				helpers: {
 					total: function(s, metric) {
 						var v = '';
+						s = s || {};
 						if (s.snowIN) v = s.snowIN + '"';
 						else if (s.rainIN) v = s.rainIN + '"';
 						else if (s.windSpeedMPH) v = s.windSpeedMPH + ' mph';
@@ -664,6 +670,7 @@
 					},
 					dateformat: function(s) {
 						var d;
+						s += '';
 						if (typeof(s) === 'string') {
 							var p = s.split(/-|\+|\s+|:|T/);
 							d = new Date(p[0], p[1]-1, p[2], p[3], p[4], p[5], 0);
@@ -727,6 +734,7 @@
 			this.$('.aeris-widget-stmreports-ctrl li').removeClass('sel');
 			this.$('.aeris-widget-stmreports-ctrl li.filter-' + code).addClass('sel');
 			this.params.filter = (code != 'all') ? code : null;
+			this.collection.reset();
 			this.load();
 		},
 
@@ -950,7 +958,7 @@
 					row: '<li>' +
 							'<div class="aeris-widget-records-icon aeris-widget-records-icon-type-{{report.type}}"></div>' +
 							'<div class="aeris-widget-records-profile">' +
-								'<div class="aeris-widget-records-name">{{typename report.type}}<span class="aeris-widget-records-total">{{total report.detail ../metric}}</span></div>' +
+								'<div class="aeris-widget-records-name">{{typename report.type}}<span class="aeris-widget-records-total">{{total this this.metric}}</span></div>' +
 								'<div class="aeris-widget-records-details">{{ucwords place.name}}, {{upper place.state}} - {{dateformat report.timestamp}}</div>' +
 							'</div>' +
 						'</li>',
@@ -981,14 +989,18 @@
 					total: function(s, metric) {
 						var v = '';
 						s = s || {};
-						if (undefined !== s.snowIN) v = s.snowIN + '"';
-						else if (undefined !== s.rainIN) v = s.rainIN + '"';
-						else if (undefined !== s.tempF) v = s.tempF + '&deg;F';
+						if (s.report && s.report.details) {
+							s = s.report.details;
+							if (undefined !== s.snowIN) v = s.snowIN + '"';
+							else if (undefined !== s.rainIN) v = s.rainIN + '"';
+							else if (undefined !== s.tempF) v = s.tempF + '&deg;F';
+						}
 						return ((v !== '') ? ' - ' + v : '');
 					},
 					dateformat: function(s) {
 						var d;
-						if (typeof(s) === 'string') {
+						s += '';
+						if (typeof(s) === 'string' && s.indexOf(':') > -1) {
 							var p = s.split(/-|\+|\s+|:|T/);
 							d = new Date(p[0], p[1]-1, p[2], p[3], p[4], p[5], 0);
 						}
@@ -1044,6 +1056,7 @@
 			this.$('.aeris-widget-records-ctrl li').removeClass('sel');
 			this.$('.aeris-widget-records-ctrl li.filter-' + code).addClass('sel');
 			this.params.filter = (code != 'all') ? code : null;
+			this.collection.reset();
 			this.load();
 		},
 
