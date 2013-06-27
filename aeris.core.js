@@ -1250,7 +1250,7 @@
 		},
 
 		reset: function() {
-			for (var i in this.collections) {
+			for (var i = 0, len = this.collections.length; i < len; i++) {
 				this.collections[i].reset();
 			}
 		},
