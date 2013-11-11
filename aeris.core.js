@@ -1148,13 +1148,12 @@
 	window.setTimeout(function(){
 		// setup any dependencies we need to load before we're finally ready
 		var libsToLoad = [];
-		var order = 'order!';
 		if (Aeris.config.widgets === true) {
 			// make sure the jQuery UI plugins required by our built-in widgets are loaded
 			if (typeof $.ui === 'undefined' || typeof $.ui.autocomplete === 'undefined') {
-				libsToLoad.push(order + 'jquery.ui');
+				libsToLoad.push('jquery.ui');
 			}
-			libsToLoad.push(order + 'aeris.widgets');
+			libsToLoad.push('aeris.widgets');
 		}
 		// custom user dependencies
 		if (Aeris.config.dependencies) {
