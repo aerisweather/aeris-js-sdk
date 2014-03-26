@@ -572,7 +572,11 @@
 						var ampm = (hr >= 12) ? 'pm' : 'am';
 						if (hr > 12) hr -= 12;
 						if (hr === 0) hr = 12;
-						return (dayNames[d.getDay()].substr(0, 3) + ', ' + monthNames[d.getMonth()].substr(0, 3) + ' ' + d.getDate() + ' at ' + hr + ':' + min + ampm);
+
+						var dayName = dayNames[d.getDay()] + '';
+						var monthName = monthNames[d.getMonth()] + '';
+
+						return (dayName.substr(0, 3) + ', ' + monthName.substr(0, 3) + ' ' + d.getDate() + ' at ' + hr + ':' + min + ampm);
 					}
 				}
 			}

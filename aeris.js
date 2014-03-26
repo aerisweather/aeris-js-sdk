@@ -2143,17 +2143,17 @@
 		var v = (Aeris.loadVersion) ? '/' + Aeris.loadVersion : '';
 		var base = Aeris.jsBase + v;
 
-		Aeris.require.config({
-			baseUrl: base,
-			paths: {
-				'jquery': base + '/libs/jquery.min',
-				'jquery.easing': base + '/libs/jquery.easing' + min,
-				'jquery.ui': base + '/libs/jquery-ui.custom.min',
-				'underscore': base + '/libs/underscore' + min,
-				'handlebars': base + '/libs/handlebars' + min,
-				'aeris.core': base + '/aeris.core' + min,
-				'aeris.widgets': base + '/aeris.widgets' + min
-			},
+        var config = {
+            baseUrl: base,
+            paths: {
+                'jquery': base + '/libs/jquery.min',
+                'jquery.easing': base + '/libs/jquery.easing' + min,
+                'jquery.ui': base + '/libs/jquery-ui.custom.min',
+                'underscore': base + '/libs/underscore' + min,
+                'handlebars': base + '/libs/handlebars' + min,
+                'aeris.core': base + '/aeris.core' + min,
+                'aeris.widgets': base + '/aeris.widgets' + min
+            },
             shim: {
                 'jquery.easing': ['jquery'],
                 'jquery.ui': ['jquery'],
@@ -2161,12 +2161,23 @@
                 'aeris.core': ['jquery','underscore','handlebars'],
                 'aeris.widgets': ['aeris.core']
             }
-		});
+        };
 
-		// load third-party dependencies
-		if (typeof jQuery === 'undefined') {
-			libsToLoad.push('jquery');
-		}
+        // check if we need to load jQuery first
+        if (typeof jQuery === 'undefined') {
+            libsToLoad.push('jquery');
+        }
+        else {
+            // jQuery already exists on the page, remove it from each dependency's shim entry
+            for (var key in config.shim) {
+                var dep = config.shim[key];
+                var index = $.inArray('jquery', dep);
+                if (index >= 0) {
+                    dep.splice(index, 1);
+                }
+            }
+        }
+
 		// always load jQuery easing extension
 		libsToLoad.push('jquery.easing');
 
@@ -2178,6 +2189,7 @@
 		libsToLoad.push('handlebars');
 		libsToLoad.push('aeris.core');
 
+        Aeris.require.config(config);
 		Aeris.require(libsToLoad, function(jQuery){
 			//console.log('js dependencies loaded!');
 		});
