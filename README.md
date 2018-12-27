@@ -1,4 +1,5 @@
-<img src="http://www.hamweather.com/images/github/aeris_js_sdk_header.png" alt="Aeris JS SDK" title="Aeris JS SDK" style="display:block;margin:10px auto 30px auto;" class="center">
+### This library has been deprecated. Check out [our new JavaScript SDK](https://www.aerisweather.com/support/docs/toolkits/aeris-js-sdk/)!
+---
 
 The Aeris Weather JavaScript SDK provides a rich set of client-side functionality for accessing our [Aeris API](http://www.hamweather.com/products/aeris-api/), including easily-customizable widgets and methods for quickly creating your own weather widgets for your web site or application. Using the SDK requires that you have an active Aeris Weather API subscription.
 
